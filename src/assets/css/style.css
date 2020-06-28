@@ -1,0 +1,34 @@
+html,body{
+  height: 100%;
+}
+html,body,h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,p,input{
+  margin: 0;
+  padding: 0;
+  color: #333333;
+}
+ul,li,dl,dt,dd{
+  list-style: none;
+}
+input{
+  border: none;
+  outline: none;
+}
+p{
+  font-size: 14px;
+  color: #959595;
+}
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+  outline: none;
+}
+.auto{margin: 0 auto;}.bold{font-weight: bold;}.font400{font-weight: 400;}
+.text-center{text-align: center;} .text-left{text-align: left;} .text-right{text-align: right;}
+.w25{width: 25%;}.w40{width: 40%;}.w50{width: 50%;}.w80{width: 80%;}.w85{width: 85%;}.w90{width: 90%;}.w100{width: 100%;}
+.disflex{display: flex;}
+.disflex-jbt{display: flex;justify-content: space-between;}
+.disflex-act{display: flex;align-items: center;}
+.disflex-abc{display: flex;align-items: center;justify-content: space-between;}
