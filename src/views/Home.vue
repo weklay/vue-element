@@ -9,31 +9,51 @@
       </li>
     </div>
     <div class="search disflex-acc">
-      <el-input v-model="search.name" style="width:400px" placeholder="输入提取码" />
       <div style="margin: 0 20px">
-        提取文件从
+        密钥:
       </div>
-      <el-input-number v-model="search.start" :min="1" :max="10" />
+      <el-input v-model="search.token" style="width:300px" placeholder="请输入密钥" />
       <div style="margin: 0 20px">
-        提取文件从
+        <el-radio v-model="genre" label="1">
+          全部文件
+        </el-radio>
+        <el-radio v-model="genre" label="2">
+          自定义范围
+        </el-radio>
       </div>
-      <el-input-number v-model="search.end" :min="1" :max="1000" style="margin-right:20px" />
+      <div v-if="genre === '2'" class="disflex-acc" style="width:650px">
+        <div style="margin: 0 20px">
+          提取文件从
+        </div>
+        <el-input-number v-model="search.start" :min="1" :max="10" />
+        <div style="margin: 0 20px">
+          提取文件从
+        </div>
+        <el-input-number v-model="search.end" :min="1" :max="100" style="margin-right:20px" />
+      </div>
       <el-button type="primary" @click="getGameList">
         查询
       </el-button>
     </div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="gameName" label="游戏名称" width="180" />
-      <el-table-column prop="fileName" label="文件名" width="180" />
-      <el-table-column prop="gameUrl" :show-overflow-tooltip="true" label="下载地址" />
-      <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
-          <el-button size="mini" type="primary" class="tag-read" :data-clipboard-text="scope.row.gameUrl" @click="onCopy()">
-            复制地址
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div style="width: 100%;padding:0 100px;" class="disflex boxsiz">
+      <el-table :data="tableData" border style="width: 50%;">
+        <el-table-column prop="gameName" label="游戏名称" align="center" width="180" />
+        <el-table-column prop="fileName" label="文件名" align="center" width="180" />
+        <el-table-column prop="gameUrl" :show-overflow-tooltip="true" align="center" label="下载地址" />
+        <el-table-column label="操作" align="center" width="180">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" class="tag-read" :data-clipboard-text="scope.row.gameUrl" @click="onCopy()">
+              复制地址
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="allUrl boxsiz w50">
+        <p v-for="(item, index) in tableTxt" :key="index">
+          {{ item }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,10 +66,12 @@ export default {
     return {
       adData: [],
       tableData: [],
+      tableTxt: '',
+      genre: '1',
       search: {
-        name: '',
         start: '',
-        end: ''
+        end: 10,
+        token: ''
       }
     }
   },
@@ -70,11 +92,18 @@ export default {
       }
     },
     async getGameList() {
-      const { name, start, end } = this.search
+      const { token, start, end } = this.search
+      let params = {}
+      if (this.genre === '1') {
+        params = { token }
+      } else {
+        params = { token, limit: start + ',' + end }
+      }
       try {
-        const { code, data } = await getGameList(name, start, end)
+        const { code, data = {}} = await getGameList(params)
         if (code === 200) {
-          this.tableData = data
+          this.tableData = data.list
+          this.tableTxt = data.txt
         }
       } catch (error) {
         console.error(error)
@@ -100,6 +129,10 @@ export default {
 
 <style scoped lang="scss">
 .game100 {
+  ::v-deep
+  .el-radio__label{
+    font-size: 16px;
+  }
   .title {
     background: #99a9bf;
     padding: 10px 0;
@@ -110,6 +143,15 @@ export default {
   .search{
     margin: 40px 0;
     padding: 0 50px;
+  }
+  .allUrl{
+    padding: 20px;
+    border: 1px solid #EBEEF5;
+    p{
+      width: 100%;
+      word-wrap: break-word;
+      margin-bottom: 5px;
+    }
   }
 }
 </style>

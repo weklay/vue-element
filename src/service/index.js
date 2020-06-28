@@ -15,16 +15,11 @@ export function getBanner(params) {
  *  get 获取游戏分享
  * @param {*} data
  */
-export function getGameList(name, start, end) {
-  if (start) {
-    return request({
-      url: '/fname/' + name + '?limit=' + start + ',' + end
-    })
-  } else {
-    return request({
-      url: '/fname/' + name
-    })
-  }
+export function getGameList(params) {
+  return request({
+    url: '/fname',
+    params
+  })
 }
 
 /**
