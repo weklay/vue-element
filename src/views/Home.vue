@@ -5,7 +5,7 @@
     </div>
     <div class="banner disflex">
       <li v-for="(item, index) in adData.slice(0,3)" :key="index">
-        <img :src="item.value" :title="item.name" class="w100">
+        <a :href="item.link"><img :src="item.value" :title="item.name" class="w100"></a>
       </li>
     </div>
     <div class="search disflex-acc">
@@ -39,7 +39,11 @@
       <el-table :data="tableData" border style="width: 50%;">
         <el-table-column prop="gameName" label="游戏名称" align="center" width="180" />
         <el-table-column prop="fileName" label="文件名" align="center" width="180" />
-        <el-table-column prop="gameUrl" :show-overflow-tooltip="true" align="center" label="下载地址" />
+        <el-table-column :show-overflow-tooltip="true" align="center" label="下载地址">
+          <template slot-scope="scope">
+            <a :href="scope.row.gameUrl" target="_blank">{{ scope.row.gameUrl }}</a>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" class="tag-read" :data-clipboard-text="scope.row.gameUrl" @click="onCopy()">
@@ -49,9 +53,9 @@
         </el-table-column>
       </el-table>
       <div class="allUrl boxsiz w50">
-        <p v-for="(item, index) in tableTxt" :key="index">
-          {{ item }}
-        </p>
+        <el-button size="mini" type="primary" @click="downTxt()">
+          下载全部
+        </el-button>
       </div>
     </div>
   </div>
@@ -122,6 +126,13 @@ export default {
         // 释放内存
         clipboard.destroy()
       })
+    },
+    downTxt() {
+      const dtxt = document.createElement('a')
+      dtxt.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(this.tableTxt))
+      dtxt.setAttribute('download', '下载地址')
+      dtxt.style.display = 'none'
+      dtxt.click()
     }
   }
 }
