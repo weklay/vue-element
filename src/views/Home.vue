@@ -8,11 +8,16 @@
         <img :src="item.value" :title="item.name" class="w100">
       </li>
     </div>
-    <div class="search disflex-act">
+    <div class="search disflex-acc">
       <el-input v-model="search.name" style="width:400px" placeholder="输入提取码" />
       <div style="margin: 0 20px">
         提取文件从
       </div>
+      <el-input-number v-model="search.start" :min="1" :max="10" />
+      <div style="margin: 0 20px">
+        提取文件从
+      </div>
+      <el-input-number v-model="search.end" :min="1" :max="1000" style="margin-right:20px" />
       <el-button type="primary" @click="getGameList">
         查询
       </el-button>
@@ -103,7 +108,7 @@ export default {
     flex: 3;
   }
   .search{
-    margin: 20px 0;
+    margin: 40px 0;
     padding: 0 50px;
   }
 }

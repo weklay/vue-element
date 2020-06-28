@@ -32,3 +32,4 @@ p{
 .disflex-jbt{display: flex;justify-content: space-between;}
 .disflex-act{display: flex;align-items: center;}
 .disflex-abc{display: flex;align-items: center;justify-content: space-between;}
+.disflex-acc{display: flex;align-items: center;justify-content: center;}

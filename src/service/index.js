@@ -18,7 +18,7 @@ export function getBanner(params) {
 export function getGameList(name, start, end) {
   if (start) {
     return request({
-      url: '/fname/' + name + '/limit=' + start + ',' + end
+      url: '/fname/' + name + '?limit=' + start + ',' + end
     })
   } else {
     return request({
